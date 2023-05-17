@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>controls/CustomButton.qml</file>
+        <file>controls/CustomTextField.qml</file>
+        <file>controls/LeftMenuBtn.qml</file>
+        <file>controls/ToggleButton.qml</file>
+        <file>controls/TopBarButton.qml</file>
+        <file>pages/homePage.qml</file>
+        <file>pages/settingsPage.qml</file>
+        <file>pages/textEditor.qml</file>
+        <file>images/svg_images/close_icon.svg</file>
+        <file>images/svg_images/home_icon.svg</file>
+        <file>images/svg_images/icon_app_top.svg</file>
+        <file>images/svg_images/maximize_icon.svg</file>
+        <file>images/svg_images/menu_icon.svg</file>
+        <file>images/svg_images/minimize_icon.svg</file>
+        <file>images/svg_images/open_icon.svg</file>
+        <file>images/svg_images/resize_icon.svg</file>
+        <file>images/svg_images/restore_icon.svg</file>
+        <file>images/svg_images/save_icon.svg</file>
+        <file>images/svg_images/settings_icon.svg</file>
+        <file>images/icon.ico</file>
+        <file>images/svg_images/about_icon.svg</file>
+        <file>pages/RAMPage.qml</file>
+        <file>images/svg_images/ram_icon.svg</file>
+        <file>images/svg_images/results_icon.svg</file>
+        <file>pages/resultsPage.qml</file>
+    </qresource>
+</RCC>
