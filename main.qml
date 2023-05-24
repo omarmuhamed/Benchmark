@@ -13,7 +13,7 @@ Window {
     minimumHeight: 800
     visible: true
     color: "#00000000"
-    title: qsTr("Course Qt Quick")
+    title: qsTr("Benchmark")
 
     // Remove title bar
     flags: Qt.Window | Qt.FramelessWindowHint

@@ -8,7 +8,6 @@
         <file>controls/TopBarButton.qml</file>
         <file>pages/homePage.qml</file>
         <file>pages/settingsPage.qml</file>
-        <file>pages/textEditor.qml</file>
         <file>images/svg_images/close_icon.svg</file>
         <file>images/svg_images/home_icon.svg</file>
         <file>images/svg_images/icon_app_top.svg</file>

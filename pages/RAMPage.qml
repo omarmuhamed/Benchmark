@@ -1,3 +1,4 @@
+
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 import QtCharts 2.15
@@ -243,6 +244,9 @@ Item {
             axisX4.max = size
             axisY4.max = axisY4.max > speed ? axisY4.max : speed
             fltRandRWSeries.append(size, speed)
+        }
+        function onScoreSig(score){
+            console.debug(score);
         }
 
     }

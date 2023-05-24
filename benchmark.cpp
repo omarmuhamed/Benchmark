@@ -9,23 +9,28 @@ Benchmark::Benchmark()
 
 void Benchmark::start(){
     for (int i = 0; i < 15; i++){
+        _sizes.push_back(_size / 256);
         _bytes = 4;
         AllocateInteger();
         fillIntArraySerial();
         runTest(SERIAL_INTEGER_READ);
         calculateSpeed();
+        _intSerR.push_back(_speed);
         emit intSerRSig(_size / 256, _speed);
         fillIntArraySerial();
         runTest(SERIAL_INTEGER_READWRITE);
         calculateSpeed();
+        _intSerRW.push_back(_speed);
         emit intSerRWSig(_size / 256, _speed);
         fillIntArrayRandom();
         runTest(RANDOM_INTEGER_READ);
         calculateSpeed();
+        _intRndR.push_back(_speed);
         emit intRandRSig(_size / 256, _speed);
         fillIntArrayRandom();
         runTest(RANDOM_INTEGER_READWRITE);
         calculateSpeed();
+        _intRndRW.push_back(_speed);
         emit intRandRWSig(_size / 256, _speed);
         FreeInteger();
         _size /= 3;
@@ -35,27 +40,43 @@ void Benchmark::start(){
         fillDoubleArraySerial();
         runTest(SERIAL_DOUBLE_READ);
         calculateSpeed();
+        _fltSerR.push_back(_speed);
         emit fltSerRSig((_size * 3) / 256, _speed);
         fillDoubleArraySerial();
         runTest(SERIAL_DOUBLE_READWRITE);
         calculateSpeed();
+        _fltSerRW.push_back(_speed);
         emit fltSerRWSig((_size * 3) / 256, _speed);
         fillDoubleArrayRandom();
         runTest(RANDOM_DOUBLE_READ);
         calculateSpeed();
+        _fltRndR.push_back(_speed);
         emit fltRandRSig((_size * 3) / 256, _speed);
         fillDoubleArrayRandom();
         runTest(RANDOM_DOUBLE_READWRITE);
         calculateSpeed();
+        _fltRndRW.push_back(_speed);
         emit fltRandRWSig((_size * 3) / 256, _speed);
         _size *= 6;
         FreeDouble();
         FreeInteger();
     }
+    calculateScore();
+    emit sendScore((int)score);
     _size = 1536;
     _speed = 0.0;
     _bytes = 4.0;
     _iters = 1;
+    score = 0.0;
+    _intRndR.clear();
+    _intSerR.clear();
+    _intSerRW.clear();
+    _intRndRW.clear();
+    _fltSerR.clear();
+    _fltSerRW.clear();
+    _fltRndR.clear();
+    _fltRndRW.clear();
+    _sizes.clear();
 }
 
 void Benchmark::warmup(){
@@ -309,6 +330,37 @@ void Benchmark::update_iterations() {
 
 void Benchmark::calculateSpeed(){
     _speed = (double) _size * (double) _iters * _bytes / (1024.0 * 1024.0 * 1024.0) / (msecs / 1000.0);
+}
+
+void Benchmark::calculateScore(){
+    size_t numSizes = _sizes.size();
+    std::vector<double> speedDecreaseRatios(numSizes, 0.0);
+
+    for (size_t i = 1; i < numSizes; ++i) {
+        double intRsequentialSpeedDecrease = static_cast<double>(_intSerR[i - 1] - _intSerR[i]) / _intSerR[i - 1];
+        double intRWsequentialSpeedDecrease = static_cast<double>(_intSerRW[i - 1] - _intSerRW[i]) / _intSerRW[i - 1];
+        double fltRsequentialSpeedDecrease = static_cast<double>(_fltSerR[i - 1] - _fltSerR[i]) / _fltSerR[i - 1];
+        double fltRWsequentialSpeedDecrease = static_cast<double>(_fltSerRW[i - 1] - _fltSerRW[i]) / _fltSerRW[i - 1];
+
+        double intRrandomSpeedDecrease = static_cast<double>(_intRndR[i - 1] - _intRndR[i]) / _intRndR[i - 1];
+        double intRWrandomSpeedDecrease = static_cast<double>(_intRndRW[i - 1] - _intRndRW[i]) / _intRndRW[i - 1];
+        double fltRrandomSpeedDecrease = static_cast<double>(_fltRndR[i - 1] - _fltRndR[i]) / _fltRndR[i - 1];
+        double fltRWrandomSpeedDecrease = static_cast<double>(_fltRndRW[i - 1] - _fltRndRW[i]) / _fltRndRW[i - 1];
+
+        speedDecreaseRatios[i] = (intRsequentialSpeedDecrease + intRWsequentialSpeedDecrease + fltRsequentialSpeedDecrease
+                                  +fltRWsequentialSpeedDecrease + intRrandomSpeedDecrease + fltRrandomSpeedDecrease +
+                                  fltRWrandomSpeedDecrease + intRWrandomSpeedDecrease) / 8.0;
+    }
+
+    // Calculate the score
+    double weight = 1.0;
+
+    for (size_t i = 0; i < numSizes; ++i) {
+        double weightedSpeed = (_intSerR[i] + _intSerRW[i] + _fltSerR[i] + _fltSerRW[i] +
+                                _intRndR[i] + _intRndRW[i] + _fltRndR[i] + _fltRndRW[i]) * weight;
+        score += weightedSpeed;
+        weight *= (1.0 - speedDecreaseRatios[i]); // Decrease the weight based on speed decrease ratio
+    }
 }
 
 void Benchmark::runTest(TestType test){

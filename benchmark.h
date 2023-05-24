@@ -5,6 +5,7 @@
 #include <ctime>
 #include <windows.h>
 #include <QObject>
+#include <vector>
 
 enum TestType{
     SERIAL_INTEGER_READ,
@@ -39,6 +40,16 @@ private:
     double *double_array;
     Timer timer;
     double msecs;
+    int score = 0;
+    std::vector<double> _intSerR;
+    std::vector<double> _intSerRW;
+    std::vector<double> _intRndR;
+    std::vector<double> _intRndRW;
+    std::vector<double> _fltSerR;
+    std::vector<double> _fltSerRW;
+    std::vector<double> _fltRndR;
+    std::vector<double> _fltRndRW;
+    std::vector<int> _sizes;
     double runTime = 100.0;
     void update_iterations();
     int _size = 1536;
@@ -59,6 +70,7 @@ private:
     void FreeDouble();
     void calculateSpeed();
     void runTest(TestType);
+    void calculateScore();
 signals:
     void intSerRSig(int, double);
     void intSerRWSig(int, double);
@@ -68,6 +80,7 @@ signals:
     void fltSerRWSig(int, double);
     void fltRandRSig(int, double);
     void fltRandRWSig(int, double);
+    void sendScore(int);
 
 
 };
