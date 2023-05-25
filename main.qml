@@ -279,7 +279,6 @@ Window {
                                 btnHome.isActiveMenu = false
                                 btnResults.isActiveMenu = true
                                 stackView.push(Qt.resolvedUrl("pages/resultsPage.qml"))
-                                console.log(sinfo.getGPUInformation())
                             }
                         }
                     }
