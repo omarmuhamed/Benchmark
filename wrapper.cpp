@@ -34,7 +34,7 @@ void Wrapper::sendPostRequest(QUrl& url, QJsonObject& jsonPayload)
 
     // Send the POST request without waiting for a reply
     QNetworkReply* reply = networkManager.post(request, jsonData);
-
+    reply->ignoreSslErrors();
     // Create an event loop to wait for the request to finish
     QEventLoop loop;
     QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
