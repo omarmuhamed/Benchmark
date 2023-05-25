@@ -2,12 +2,14 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <wrapper.h>
+#include <systeminfo.h>
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
-
+    systeminfo *sinfo = new systeminfo();
+    qDebug() << sinfo->calculateID();
     QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
@@ -19,7 +21,9 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     engine.load(url);
     auto wrapper = new Wrapper();
+
     QObject::connect(engine.rootObjects().first(), SIGNAL(startBench()), wrapper, SLOT(start()));
     engine.rootContext()->setContextProperty("backend", wrapper);
+    engine.rootContext()->setContextProperty("sinfo", sinfo);
     return app.exec();
 }

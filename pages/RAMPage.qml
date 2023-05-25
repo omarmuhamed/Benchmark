@@ -5,92 +5,143 @@ import QtCharts 2.15
 import QtQuick.Layouts 1.0
 
 Item {
+
     Rectangle {
         id: rectangle
         color: "#2c313c"
         anchors.fill: parent
         ValueAxis {
-                    id: axisX
-                    min: 6
-                    max: 192
-                }
+            id: axisX
+            min: 6
+            max: 192
+        }
         ValueAxis {
-                    id: axisY
-                    min: 0
-                    max: 30
-                }
+            id: axisY
+            min: 0
+            max: 30
+        }
         ValueAxis {
-                    id: axisX2
-                    min: 6
-                    max: 192
-                }
+            id: axisX2
+            min: 6
+            max: 192
+        }
         ValueAxis {
-                    id: axisY2
-                    min: 0
-                    max: 30
-                }
+            id: axisY2
+            min: 0
+            max: 30
+        }
         ValueAxis {
-                    id: axisX3
-                    min: 6
-                    max: 192
-                }
+            id: axisX3
+            min: 6
+            max: 192
+        }
         ValueAxis {
-                    id: axisY3
-                    min: 0
-                    max: 30
-                }
+            id: axisY3
+            min: 0
+            max: 30
+        }
         ValueAxis {
-                    id: axisX4
-                    min: 6
-                    max: 192
-                }
+            id: axisX4
+            min: 6
+            max: 192
+        }
         ValueAxis {
-                    id: axisY4
-                    min: 0
-                    max: 30
-                }
+            id: axisY4
+            min: 0
+            max: 30
+        }
         ValueAxis {
-                    id: axisX5
-                    min: 6
-                    max: 192
-                }
+            id: axisX5
+            min: 6
+            max: 192
+        }
         ValueAxis {
-                    id: axisY5
-                    min: 0
-                    max: 30
-                }
+            id: axisY5
+            min: 0
+            max: 30
+        }
         ValueAxis {
-                    id: axisX6
-                    min: 6
-                    max: 192
-                }
+            id: axisX6
+            min: 6
+            max: 192
+        }
         ValueAxis {
-                    id: axisY6
-                    min: 0
-                    max: 30
-                }
+            id: axisY6
+            min: 0
+            max: 30
+        }
         ValueAxis {
-                    id: axisX7
-                    min: 6
-                    max: 192
-                }
+            id: axisX7
+            min: 6
+            max: 192
+        }
         ValueAxis {
-                    id: axisY7
-                    min: 0
-                    max: 30
-                }
+            id: axisY7
+            min: 0
+            max: 30
+        }
         ValueAxis {
-                    id: axisX8
-                    min: 6
-                    max: 192
-                }
+            id: axisX8
+            min: 6
+            max: 192
+        }
         ValueAxis {
-                    id: axisY8
-                    min: 0
-                    max: 30
-                }
+            id: axisY8
+            min: 0
+            max: 30
+        }
         ColumnLayout {
             anchors.fill: parent
+            anchors.topMargin: 20
+            Rectangle {
+                width: 200
+                height: 50
+                radius: height / 2
+                color: "lightblue"
+
+                anchors.horizontalCenter: parent.horizontalCenter
+                MouseArea {
+                    id: strtbtn
+                    property bool started: false
+                    anchors.fill: parent
+                    onClicked: {
+                        if (!started){
+                            intRandRSeries.clear()
+                            intRandRWSeries.clear()
+                            intSerRSeries.clear()
+                            intSerRWSeries.clear()
+                            fltRandRSeries.clear()
+                            fltRandRWSeries.clear()
+                            fltSerRSeries.clear()
+                            fltSerRWSeries.clear()
+                            startBench()
+                            started = true
+                        }
+                    }
+
+                    Text {
+                        id: myText
+                        text: "Start"
+                        anchors.centerIn: parent
+                        font {
+                                        pixelSize: 20
+                                        bold: true
+                                    }
+                        color: "white"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
+            }
+            Text {
+                        id: myScore
+                        font {
+                                        pixelSize: 25
+                                        bold: true
+                                    }
+                        color: "green"
+                        Layout.alignment: Qt.AlignHCenter
+                    }
             RowLayout {
                 id: fltLayout
                 ChartView {
@@ -201,6 +252,8 @@ Item {
                     }
                 }
             }
+
+
         }
     }
     Connections{
@@ -246,7 +299,9 @@ Item {
             fltRandRWSeries.append(size, speed)
         }
         function onScoreSig(score){
-            console.debug(score);
+            myScore.text = "Score: " + score
+
+            strtbtn.started = false
         }
 
     }
@@ -254,6 +309,6 @@ Item {
 
 /*##^##
 Designer {
-    D{i:0;autoSize:true;height:480;width:640}D{i:3}D{i:2}
+    D{i:0;autoSize:true;height:480;width:640}
 }
 ##^##*/

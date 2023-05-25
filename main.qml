@@ -14,10 +14,9 @@ Window {
     visible: true
     color: "#00000000"
     title: qsTr("Benchmark")
-
+    signal startBench
     // Remove title bar
     flags: Qt.Window | Qt.FramelessWindowHint
-    signal startBench
     // Propeties
     property int windowStatus: 0
     property int windowMargin: 10
@@ -266,7 +265,7 @@ Window {
                                 btnHome.isActiveMenu = false
                                 btnResults.isActiveMenu = false
                                 stackView.push(Qt.resolvedUrl("pages/RAMPage.qml"))
-                                startBench()
+
                             }
                         }
                         LeftMenuBtn {
@@ -280,6 +279,7 @@ Window {
                                 btnHome.isActiveMenu = false
                                 btnResults.isActiveMenu = true
                                 stackView.push(Qt.resolvedUrl("pages/resultsPage.qml"))
+                                console.log(sinfo.getGPUInformation())
                             }
                         }
                     }
@@ -432,9 +432,6 @@ Window {
             target: null
             onActiveChanged: if (active) { mainWindow.startSystemResize(Qt.BottomEdge) }
         }
-    }
-    Connections {
-        target: backend
     }
 
 }

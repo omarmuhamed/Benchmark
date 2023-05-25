@@ -9,6 +9,7 @@ CONFIG += c++11
 SOURCES += \
         benchmark.cpp \
         main.cpp \
+        systeminfo.cpp \
         timer.cpp \
         wrapper.cpp
 
@@ -24,8 +25,9 @@ QML_DESIGNER_IMPORT_PATH =
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
+LIBS += -lwbemuuid -lole32 -loleaut32
 HEADERS += \
     benchmark.h \
+    systeminfo.h \
     timer.h \
     wrapper.h
