@@ -2,8 +2,11 @@
 #define WRAPPER_H
 #include "benchmark.h"
 #include <QThread>
-
-
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkRequest>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QNetworkReply>
 class Wrapper : public QObject
 {
     Q_OBJECT
@@ -11,8 +14,14 @@ public:
     Wrapper();
     QThread th;
     Benchmark *bench;
+    void setID(QString);
+    void setName(QString);
+
 private:
     bool isWorking = false;
+    void sendPostRequest(QUrl& , QJsonObject&);
+    QString _name;
+    QString _uid;
 public slots:
     void intSerRSlot(int, double);
     void intSerRWSlot(int, double);
@@ -24,6 +33,7 @@ public slots:
     void fltRandRWSlot(int, double);
     void scoreSlot(int);
     void start();
+    void replyFinished(QNetworkReply*);
 signals:
     void intSerRSig(int, double);
     void intSerRWSig(int, double);

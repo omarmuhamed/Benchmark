@@ -9,7 +9,6 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     systeminfo *sinfo = new systeminfo();
-    qDebug() << sinfo->calculateID();
     QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
@@ -20,8 +19,11 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     engine.load(url);
+    auto test = engine.findChild<QObject*>("mytestview");
+    qDebug() << test;
     auto wrapper = new Wrapper();
-
+    wrapper->setID(sinfo->calculateID());
+    wrapper->setName(sinfo->getRAMName());
     QObject::connect(engine.rootObjects().first(), SIGNAL(startBench()), wrapper, SLOT(start()));
     engine.rootContext()->setContextProperty("backend", wrapper);
     engine.rootContext()->setContextProperty("sinfo", sinfo);

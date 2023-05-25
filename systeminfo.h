@@ -20,6 +20,7 @@ public:
     Q_INVOKABLE QString getGPUInformation();
     Q_INVOKABLE QString getHardDiskInformation();
     Q_INVOKABLE QString calculateID();
+    Q_INVOKABLE QString getRAMName();
 
 private:
     HRESULT hres;

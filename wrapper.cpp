@@ -1,5 +1,6 @@
 #include "wrapper.h"
 #include <QDebug>
+#include <QEventLoop>
 Wrapper::Wrapper()
 {
     bench = new Benchmark();
@@ -18,9 +19,67 @@ Wrapper::Wrapper()
 
 }
 
+void Wrapper::sendPostRequest(QUrl& url, QJsonObject& jsonPayload)
+{
+    // Create a network access manager
+    QNetworkAccessManager networkManager;
+
+    // Create a JSON document from the payload
+    QJsonDocument jsonDoc(jsonPayload);
+    QByteArray jsonData = jsonDoc.toJson();
+
+    // Create the request
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    // Send the POST request without waiting for a reply
+    QNetworkReply* reply = networkManager.post(request, jsonData);
+
+    // Create an event loop to wait for the request to finish
+    QEventLoop loop;
+    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+
+    // Wait for the request to finish
+    loop.exec();
+
+    // Check for errors
+    if (reply->error() != QNetworkReply::NoError) {
+        // Print the error message
+        qCritical() << "POST request error:" << reply->errorString();
+    } else {
+        // Request succeeded, handle the response if needed
+        QByteArray responseData = reply->readAll();
+        qDebug() << responseData;
+    }
+
+    // Clean up
+    reply->deleteLater();
+}
+void Wrapper::replyFinished(QNetworkReply* reply)
+{
+    QVariant statusCodeV = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+        qDebug() << statusCodeV;
+    if (statusCodeV.toInt()==200){
+        //do something
+    }
+    else{
+        // do something else
+        }
+
+    delete reply;
+}
+
 void Wrapper::scoreSlot(int score){
     emit scoreSig(score);
     isWorking = false;
+    QJsonObject object
+        {
+            {"hash", _uid},
+            {"device", _name},
+            {"score", score}
+        };
+    QUrl url("https://ukdriving.omarmohamed.com/AddResult");
+    sendPostRequest(url, object);
 }
 void Wrapper::intSerRSlot(int size, double speed){
     emit intSerRSig(size, speed);
@@ -60,4 +119,12 @@ void Wrapper::start(){
         emit startBench();
     }
 
+}
+
+void Wrapper::setID(QString _id){
+    _uid = _id;
+}
+
+void Wrapper::setName(QString name){
+    _name = name;
 }

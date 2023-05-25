@@ -7,6 +7,7 @@
 #include <QObject>
 #include <vector>
 
+
 enum TestType{
     SERIAL_INTEGER_READ,
     SERIAL_INTEGER_READWRITE,
@@ -71,6 +72,7 @@ private:
     void calculateSpeed();
     void runTest(TestType);
     void calculateScore();
+
 signals:
     void intSerRSig(int, double);
     void intSerRWSig(int, double);

@@ -19,54 +19,109 @@ Item {
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    color: "#FFFFFF"
-                    border.color: "#CCCCCC"
-                    border.width: 1
+                    color: "#2c313c"
+                    //border.color: "#CCCCCC"
+                    //border.width: 1
                     radius: 4
-                    Text {
-                                    anchors {
-                                        top: parent.top
-                                        horizontalCenter: parent.horizontalCenter
-                                        topMargin: 10
-                                    }
-                                    font {
-                                        pixelSize: 24
-                                        bold: true
-                                    }
-                                    text: "CPU Information"
-                                }
+                    Rectangle {
+                        width: parent.width * 0.5
+                        height: parent.height * 0.12
+                        radius: height / 2
+                        color: "#DE4C0B"
+                        anchors {
+                            top: parent.top
+                            horizontalCenter: parent.horizontalCenter
+                            topMargin: parent.height * 0.03
+                        }
+                        Text {
+                            text: "CPU Information"
+                            anchors.centerIn: parent
+                            font {
+                                            pixelSize: 25
+                                            bold: true
+                                        }
+                            color: "white"
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
 
-                                Text {
-                                    anchors.centerIn: parent
-                                    font.pixelSize: 20
-                                    text: sinfo.getCPUInformation()
-                                }
+                    }
+                    Rectangle {
+                        width: parent.width * 0.9
+                        height: parent.height * 0.8
+                        radius: height / 3
+                        color: "#DE4C0B"
+                        anchors {
+                            bottom: parent.bottom
+                            horizontalCenter: parent.horizontalCenter
+                            bottomMargin: parent.height * 0.03
+                        }
+                        Text {
+                            text: sinfo.getCPUInformation()
+                            anchors.centerIn: parent
+                            font {
+                                            pixelSize: 20
+                                            bold: true
+                                        }
+                            color: "white"
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                    }
                 }
 
                 // Section 2: RAM Information
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    color: "#FFFFFF"
-                    border.color: "#CCCCCC"
-                    border.width: 1
+                    color: "#2c313c"
+                    //border.color: "#CCCCCC"
+                    //border.width: 1
                     radius: 4
-                    Text {
-                            anchors {
-                                top: parent.top
-                                horizontalCenter: parent.horizontalCenter
-                                topMargin: 10
-                            }
-                            font {
-                                pixelSize: 24
-                                bold: true
-                            }
-                            text: "RAM Information"
+                    Rectangle {
+                        width: parent.width * 0.5
+                        height: parent.height * 0.12
+                        radius: height / 2
+                        color: "#1DBD12"
+                        anchors {
+                            top: parent.top
+                            horizontalCenter: parent.horizontalCenter
+                            topMargin: parent.height * 0.03
                         }
-                    Text {
-                        anchors.centerIn: parent
-                        font.pixelSize: 20
-                        text: sinfo.getRAMInformation()
+                        Text {
+                            text: "RAM Information"
+                            anchors.centerIn: parent
+                            font {
+                                            pixelSize: 25
+                                            bold: true
+                                        }
+                            color: "white"
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+
+                    }
+                    Rectangle {
+                        width: parent.width * 0.9
+                        height: parent.height * 0.8
+                        radius: height / 3
+                        color: "#1DBD12"
+                        anchors {
+                            bottom: parent.bottom
+                            horizontalCenter: parent.horizontalCenter
+                            bottomMargin: parent.height * 0.03
+                        }
+                        Text {
+                            text: sinfo.getRAMInformation()
+                            anchors.centerIn: parent
+                            font {
+                                            pixelSize: 20
+                                            bold: true
+                                        }
+                            color: "white"
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
                     }
                 }
 
@@ -74,26 +129,54 @@ Item {
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    color: "#FFFFFF"
-                    border.color: "#CCCCCC"
-                    border.width: 1
+                    color: "#2c313c"
+                    //border.color: "#CCCCCC"
+                    //border.width: 1
                     radius: 4
-                    Text {
-                            anchors {
-                                top: parent.top
-                                horizontalCenter: parent.horizontalCenter
-                                topMargin: 10
-                            }
-                            font {
-                                pixelSize: 24
-                                bold: true
-                            }
-                            text: "Hard Disk Information"
+                    Rectangle {
+                        width: parent.width * 0.5
+                        height: parent.height * 0.12
+                        radius: height / 2
+                        color: "#1DBD12"
+                        anchors {
+                            top: parent.top
+                            horizontalCenter: parent.horizontalCenter
+                            topMargin: parent.height * 0.03
                         }
-                    Text {
-                        anchors.centerIn: parent
-                        font.pixelSize: 20
-                        text: sinfo.getHardDiskInformation()
+                        Text {
+                            text: "Hard Disk Information"
+                            anchors.centerIn: parent
+                            font {
+                                            pixelSize: 25
+                                            bold: true
+                                        }
+                            color: "white"
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+
+                    }
+                    Rectangle {
+                        width: parent.width * 0.9
+                        height: parent.height * 0.8
+                        radius: height / 3
+                        color: "#1DBD12"
+                        anchors {
+                            bottom: parent.bottom
+                            horizontalCenter: parent.horizontalCenter
+                            bottomMargin: parent.height * 0.03
+                        }
+                        Text {
+                            text: sinfo.getHardDiskInformation()
+                            anchors.centerIn: parent
+                            font {
+                                            pixelSize: 20
+                                            bold: true
+                                        }
+                            color: "white"
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
                     }
                 }
 
@@ -101,26 +184,54 @@ Item {
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    color: "#FFFFFF"
-                    border.color: "#CCCCCC"
-                    border.width: 1
+                    color: "#2c313c"
+                    //border.color: "#CCCCCC"
+                    //border.width: 1
                     radius: 4
-                    Text {
-                            anchors {
-                                top: parent.top
-                                horizontalCenter: parent.horizontalCenter
-                                topMargin: 10
-                            }
-                            font {
-                                pixelSize: 24
-                                bold: true
-                            }
-                            text: "GPU Information"
+                    Rectangle {
+                        width: parent.width * 0.5
+                        height: parent.height * 0.12
+                        radius: height / 2
+                        color: "#DE4C0B"
+                        anchors {
+                            top: parent.top
+                            horizontalCenter: parent.horizontalCenter
+                            topMargin: parent.height * 0.03
                         }
-                    Text {
-                        anchors.centerIn: parent
-                        font.pixelSize: 20
-                        text: sinfo.getGPUInformation()
+                        Text {
+                            text: "GPU Information"
+                            anchors.centerIn: parent
+                            font {
+                                            pixelSize: 25
+                                            bold: true
+                                        }
+                            color: "white"
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+
+                    }
+                    Rectangle {
+                        width: parent.width * 0.9
+                        height: parent.height * 0.8
+                        radius: height / 3
+                        color: "#DE4C0B"
+                        anchors {
+                            bottom: parent.bottom
+                            horizontalCenter: parent.horizontalCenter
+                            bottomMargin: parent.height * 0.03
+                        }
+                        Text {
+                            text: sinfo.getGPUInformation()
+                            anchors.centerIn: parent
+                            font {
+                                            pixelSize: 20
+                                            bold: true
+                                        }
+                            color: "white"
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
                     }
                 }
             }

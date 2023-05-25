@@ -8,7 +8,7 @@ Benchmark::Benchmark()
 }
 
 void Benchmark::start(){
-    for (int i = 0; i < 5; i++){
+    for (int i = 0; i < 10; i++){
         _sizes.push_back(_size / 256);
         _bytes = 4;
         AllocateInteger();

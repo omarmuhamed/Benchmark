@@ -97,7 +97,7 @@ Item {
                 width: 200
                 height: 50
                 radius: height / 2
-                color: "lightblue"
+                color: "#004DFF"
 
                 anchors.horizontalCenter: parent.horizontalCenter
                 MouseArea {

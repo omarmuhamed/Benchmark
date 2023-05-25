@@ -9,8 +9,8 @@ Window {
     id: mainWindow
     width: 1600
     height: 1000
-    minimumWidth: 1200
-    minimumHeight: 800
+    minimumWidth: 1400
+    minimumHeight: 1000
     visible: true
     color: "#00000000"
     title: qsTr("Benchmark")

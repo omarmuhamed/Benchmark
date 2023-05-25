@@ -198,7 +198,7 @@ QString systeminfo::getRAMInformation() {
         }
         hres = pRAMObj->Get(L"Speed", 0, &vtProp, 0, 0);
         if (SUCCEEDED(hres)) {
-            ramDetails += "RAM Speed: " + std::string(vtProp.vt == VT_NULL ? "Unknown" : std::to_string(vtProp.intVal))+ "\n";
+            ramDetails += "RAM Speed: " + std::string(vtProp.vt == VT_NULL ? "Unknown" : std::to_string(vtProp.intVal))+ " MHz\n";
             VariantClear(&vtProp);
         }
 
@@ -376,6 +376,75 @@ QString systeminfo::calculateID(){
     auto mystr = QString::fromStdString(ramDetails).simplified().remove(' ');
     auto hash = QCryptographicHash::hash(mystr.toUtf8(), QCryptographicHash::Sha256);
     return QString(hash.toHex());
+}
+
+QString systeminfo::getRAMName(){
+    std::string ramDetails;
+
+
+
+    // Query for RAM details
+    IEnumWbemClassObject* pEnumerator = NULL;
+    hres = pSvc->ExecQuery(
+        ConvertStringToBSTR("WQL"),
+        ConvertStringToBSTR("SELECT * FROM Win32_PhysicalMemory"),
+        WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY,
+        NULL,
+        &pEnumerator
+        );
+    if (FAILED(hres)) {
+        ramDetails = "Failed to query for RAM details.";
+        ReleaseWMI(pSvc, pLoc);
+        return QString::fromStdString(ramDetails);
+    }
+
+    // Retrieve RAM details
+    IWbemClassObject* pRAMObj = NULL;
+    ULONG uReturn = 0;
+    while (pEnumerator) {
+        hres = pEnumerator->Next(WBEM_INFINITE, 1, &pRAMObj, &uReturn);
+        if (uReturn == 0) {
+            break;
+        }
+
+        VARIANT vtProp;
+        hres = pRAMObj->Get(L"Manufacturer", 0, &vtProp, 0, 0);
+        if (SUCCEEDED(hres)) {
+            ramDetails += std::string(vtProp.vt == VT_NULL ? "Unknown" : ConvertBSTRToString(vtProp.bstrVal)) + " ";
+            VariantClear(&vtProp);
+        }
+
+        hres = pRAMObj->Get(L"PartNumber", 0, &vtProp, 0, 0);
+        if (SUCCEEDED(hres)) {
+            ramDetails += std::string(vtProp.vt == VT_NULL ? "Unknown" : ConvertBSTRToString(vtProp.bstrVal)) + " ";
+            VariantClear(&vtProp);
+        }
+        //aVARIANT vtProp;
+        hres = pRAMObj->Get(L"Capacity", 0, &vtProp, 0, 0);
+        if (SUCCEEDED(hres)) {
+            uint64_t ramCapacity;
+            std::istringstream iss(ConvertBSTRToString(vtProp.bstrVal));
+            iss >> ramCapacity;
+            // Convert and format the RAM capacity to a string
+            char buffer[32];
+            snprintf(buffer, sizeof(buffer), "%llu GB", ramCapacity / (1024 * 1024 * 1024));
+            ramDetails += buffer;
+            ramDetails += " ";
+            VariantClear(&vtProp);
+        }
+        hres = pRAMObj->Get(L"Speed", 0, &vtProp, 0, 0);
+        if (SUCCEEDED(hres)) {
+            ramDetails += std::string(vtProp.vt == VT_NULL ? "Unknown" : std::to_string(vtProp.intVal)) + " MHz + ";
+            VariantClear(&vtProp);
+        }
+
+        pRAMObj->Release();
+    }
+
+    pEnumerator->Release();
+    //ReleaseWMI(pSvc, pLoc);
+
+    return QString::fromStdString(ramDetails);
 }
 std::string systeminfo::ConvertBSTRToString(BSTR bstr)
 {
