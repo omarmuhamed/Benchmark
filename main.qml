@@ -274,11 +274,12 @@ Window {
                             btnIconSource: "images/svg_images/results_icon.svg"
                             text: qsTr("Results")
                             onClicked: {
-                                btnRAM.isActiveMenu = false
+                                /*btnRAM.isActiveMenu = false
                                 btnAbout.isActiveMenu = false
                                 btnHome.isActiveMenu = false
                                 btnResults.isActiveMenu = true
-                                stackView.push(Qt.resolvedUrl("pages/resultsPage.qml"))
+                                stackView.push(Qt.resolvedUrl("pages/resultsPage.qml"))*/
+                                Qt.openUrlExternally("https://ukdriving.omarmohamed.com/Result/" + backend.getID())
                             }
                         }
                     }
@@ -431,6 +432,9 @@ Window {
             target: null
             onActiveChanged: if (active) { mainWindow.startSystemResize(Qt.BottomEdge) }
         }
+    }
+    Connections {
+        target: backend
     }
 
 }

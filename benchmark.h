@@ -42,6 +42,7 @@ private:
     Timer timer;
     double msecs;
     int score = 0;
+    int _max_iters = 10;
     std::vector<double> _intSerR;
     std::vector<double> _intSerRW;
     std::vector<double> _intRndR;

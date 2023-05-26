@@ -1,14 +1,28 @@
 #include "benchmark.h"
 #include <QDebug>
-
+#include <cmath>
+#include <QSysInfo>
 
 Benchmark::Benchmark()
 {
     timer = Timer();
+    MEMORYSTATUSEX memoryStatus;
+    memoryStatus.dwLength = sizeof(memoryStatus);
+
+    if (GlobalMemoryStatusEx(&memoryStatus)) {
+        unsigned long long freeRam = (memoryStatus.ullAvailPhys * 0.1) / 1024;
+        unsigned long long allocationSize = 6;
+        int iterationCount = 0;
+        while (allocationSize <= freeRam) {
+            allocationSize *= 2;  // Double the allocation size
+            iterationCount++;
+        }
+        _max_iters = iterationCount;
+    }
 }
 
 void Benchmark::start(){
-    for (int i = 0; i < 10; i++){
+    for (int i = 0; i < _max_iters; i++){
         _sizes.push_back(_size / 256);
         _bytes = 4;
         AllocateInteger();

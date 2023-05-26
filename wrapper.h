@@ -16,7 +16,7 @@ public:
     Benchmark *bench;
     void setID(QString);
     void setName(QString);
-
+    Q_INVOKABLE QString getID();
 private:
     bool isWorking = false;
     void sendPostRequest(QUrl& , QJsonObject&);

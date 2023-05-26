@@ -128,3 +128,7 @@ void Wrapper::setID(QString _id){
 void Wrapper::setName(QString name){
     _name = name;
 }
+
+QString Wrapper::getID(){
+    return _uid;
+}
